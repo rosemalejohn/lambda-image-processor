@@ -5,12 +5,10 @@ const AWS = require('aws-sdk');
 const FileType = require('file-type');
 const _ = require('lodash');
 const S3 = new AWS.S3();
+const Config = require('./config');
 
-const BUCKET = process.env.BUCKET || 'parkiee-uploads/photos';
+const BUCKET = process.env.BUCKET || Config.bucket;
 const URL = process.env.URL;
-
-// Sizes width
-const sizes = { 'small': 100, 'medium': 450, 'large': 900 };
 
 /**
  * AWS Lambda entrypoint
@@ -34,7 +32,7 @@ exports.handler = (event, context, callback) => {
         .then((data) => {
             const files = {};
 
-            _.each(sizes, (size, key) => {
+            _.each(Config.versions, (size, key) => {
 
                 console.log(`Creating ${key} image with ${size} in width.`);
                 Jimp.read(file, (err, image) => {

@@ -1,0 +1,8 @@
+{
+    "bucket": "parkiee-uploads/photos",
+    "versions": {
+        "small": 100,
+        "medium": 450,
+        "large": 900
+    }
+}
