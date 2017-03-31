@@ -3,13 +3,11 @@
 const Jimp = require('jimp');
 const AWS = require('aws-sdk');
 const FileType = require('file-type');
-const _ = require('lodash');
 const Config = require('./config');
 const EventParser = require('./src/EventParser');
 
 const S3 = new AWS.S3();
 const BUCKET = process.env.BUCKET || Config.bucket;
-const URL = process.env.URL;
 
 /**
  * AWS Lambda entrypoint
@@ -25,14 +23,13 @@ exports.handler = (event, context, callback) => {
         .then((data) => {
             const files = {};
 
-            _.each(Config.versions, (size, key) => {
-
+            Object.keys(Config.versions).forEach((key) => {
                 Jimp.read(data.Body, (err, image) => {
 
                     if (err) {
                         throw err;
                     }
-                    image.resize(size, Jimp.AUTO)
+                    image.resize(Config.versions[key], Jimp.AUTO)
                         .quality(60)
                         .getBuffer(Jimp.MIME_JPEG, () => {});
 
@@ -43,7 +40,8 @@ exports.handler = (event, context, callback) => {
             return files;
         })
         .then((files) => {
-            _.each(files, (file, key) => {
+            Object.keys(files).forEach((key) => {
+                const file = files[key];
                 const fileinfo = FileType(file);
                 const Bucket = `${BUCKET}/${key}`;
 
@@ -60,7 +58,8 @@ exports.handler = (event, context, callback) => {
             });
         })
         .then(() => context.succeed({
-            statusCode: '301'
+            statusCode: '301',
+            message: 'Images generated successfully.'
         }))
         .catch((err) => context.fail(err));
 };

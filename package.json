@@ -16,7 +16,6 @@
   "dependencies": {
     "aws-sdk": "^2.35.0",
     "file-type": "^4.1.0",
-    "jimp": "^0.2.27",
-    "lodash": "^4.17.4"
+    "jimp": "^0.2.27"
   }
 }
