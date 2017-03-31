@@ -4,9 +4,10 @@ const Jimp = require('jimp');
 const AWS = require('aws-sdk');
 const FileType = require('file-type');
 const _ = require('lodash');
-const S3 = new AWS.S3();
 const Config = require('./config');
+const EventParser = require('./src/EventParser');
 
+const S3 = new AWS.S3();
 const BUCKET = process.env.BUCKET || Config.bucket;
 const URL = process.env.URL;
 
@@ -18,24 +19,15 @@ const URL = process.env.URL;
  * @param Function callback
  */
 exports.handler = (event, context, callback) => {
-    console.log('Executing lambda handler...');
-    console.log('Event object: ', event);
+    const s3object = EventParser(event).s3;
 
-    const key = event.queryStringParameters.key;
-    const match = key.match(/(\d+)x(\d+)\/(.*)/);
-    const width = parseInt(match[1], 10);
-    const height = parseInt(match[2], 10);
-    const originalKey = match[3];
-
-    console.log('Getting s3 object...');
-    S3.getObject({ Bucket: BUCKET, key: originalKey }).promise()
+    S3.getObject({ Bucket: BUCKET, Key: s3object.object.key }).promise()
         .then((data) => {
             const files = {};
 
             _.each(Config.versions, (size, key) => {
 
-                console.log(`Creating ${key} image with ${size} in width.`);
-                Jimp.read(file, (err, image) => {
+                Jimp.read(data.Body, (err, image) => {
 
                     if (err) {
                         throw err;
@@ -53,20 +45,17 @@ exports.handler = (event, context, callback) => {
         .then((files) => {
             _.each(files, (file, key) => {
                 const fileinfo = FileType(file);
-                const fileName = `${uuid}.${fileinfo.ext}`;
-                const Bucket = `${bucket}${key === 'original' ? '' : ('/' + key)}`;
-                console.log(`Uploading ${filename} to s3 ${BUCKET} bucket.`);
+                const Bucket = `${BUCKET}/${key}`;
+
                 S3.putObject({
                     Bucket,
-                    Key: fileName,
+                    Key: s3object.object.key,
                     ACL: 'public-read',
                     Body: file
                 }, (err, data) => {
-
                     if (err) {
                         throw err;
                     }
-                    console.log(data);
                 });
             });
         })
