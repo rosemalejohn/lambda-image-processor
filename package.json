@@ -15,7 +15,6 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.35.0",
-    "file-type": "^4.1.0",
     "jimp": "^0.2.27"
   }
 }
