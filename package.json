@@ -15,10 +15,10 @@
   "author": "“Rosemale-John” <“rosemalejohn@gmail.com”>",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.35.0",
     "jimp": "^0.2.27"
   },
   "devDependencies": {
+    "aws-sdk": "^2.35.0",
     "coveralls": "^2.13.0",
     "lambda-local": "^1.4.2"
   }
