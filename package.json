@@ -4,7 +4,7 @@
   "description": "Process new uploaded image on s3",
   "main": "index.js",
   "scripts": {
-    "test": "lambda-local -l ./index.js -h handler -e ./sampledata.json -t 100"
+    "test": "node ./node_modules/lambda-local/bin/lambda-local -l ./index.js -h handler -e ./sampledata.json -t 100"
   },
   "keywords": [
     "lambda",
@@ -16,5 +16,8 @@
   "dependencies": {
     "aws-sdk": "^2.35.0",
     "jimp": "^0.2.27"
+  },
+  "devDependencies": {
+    "lambda-local": "^1.4.2"
   }
 }
