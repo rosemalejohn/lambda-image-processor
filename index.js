@@ -5,7 +5,10 @@ const AWS = require('aws-sdk');
 const Config = require('./config');
 const EventParser = require('./src/EventParser');
 
-const S3 = new AWS.S3();
+const S3 = new AWS.S3({
+    accessKeyId: process.env.ACCESSKEYID,
+    secretAccessKey: process.env.SECRETACCESSKEY
+});
 const BUCKET = process.env.BUCKET || Config.bucket;
 
 /**

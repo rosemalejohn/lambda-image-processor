@@ -1,5 +1,7 @@
 # Lambda Image Processor
 
+[![Build Status](https://travis-ci.org/rosemalejohn/lambda-image-processor.svg?branch=master)](https://travis-ci.org/rosemalejohn/lambda-image-processor)
+
 ## Description
 
 Resizes images once a photo is uploaded on s3. Using Amazon S3 and AWS Lambda.
