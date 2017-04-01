@@ -4,5 +4,6 @@ node_js:
 matrix:
   install:
     - npm install
+    - npm install lambda-local -g
 script:
   - npm run test
