@@ -1,6 +1,6 @@
 # Lambda Image Processor
 
-[![Build Status](https://travis-ci.org/rosemalejohn/lambda-image-processor.svg?branch=master)](https://travis-ci.org/rosemalejohn/lambda-image-processor)
+[![Build Status](https://travis-ci.org/rosemalejohn/lambda-image-processor.svg?branch=dev)](https://travis-ci.org/rosemalejohn/lambda-image-processor)
 [![Coverage Status](https://coveralls.io/repos/github/rosemalejohn/lambda-image-processor/badge.svg)](https://coveralls.io/github/rosemalejohn/lambda-image-processor)
 
 ## Description
